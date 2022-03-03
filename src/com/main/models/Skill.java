@@ -24,4 +24,8 @@ public class Skill {
     public void setLevel(Integer level) {
         this.level = level;
     }
+
+    public void incrementLevel() {
+        level++;
+    }
 }
