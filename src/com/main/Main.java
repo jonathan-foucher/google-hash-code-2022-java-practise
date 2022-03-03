@@ -11,7 +11,7 @@ public class Main {
     private static final File INPUT_FOLDER_PATH = new File("./resources/input-files");
     private static final String OUTPUT_FOLDER_PATH = "./resources/output-files/";
     private static final int FIRST_FILE_INDEX = 0;
-    private static final int LAST_FILE_INDEX = 0;
+    private static final int LAST_FILE_INDEX = 5;
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
