@@ -17,7 +17,7 @@ import static java.lang.Integer.parseInt;
 
 public abstract class ProcessingService {
     private static int score = 0;
-    private static List<Person> persons;
+    private static List<Person> availablePersons;
     private static List<Project> projects;
     private static int actualDay = 0;
     private static int projectOrderId = 1;
@@ -44,7 +44,7 @@ public abstract class ProcessingService {
             int personNbOfSkills = parseInt(personLine.get(1));
             List<Skill> personSkills = new ArrayList<>();
             actualRow = extractSkills(data, actualRow, personNbOfSkills, personSkills);
-            persons.add(new Person(personLine.get(0), personSkills));
+            availablePersons.add(new Person(personLine.get(0), personSkills));
         }
 
         for (int project = 0; project < numberOfProjects; project++) {
@@ -67,8 +67,6 @@ public abstract class ProcessingService {
     }
 
     private static void simulate() {
-        List<Person> availablePersons = persons;
-
         do {
             projects.stream()
                     .filter(Project::getInProgress)
@@ -76,6 +74,7 @@ public abstract class ProcessingService {
                         project.incrementProgression();
                         if (project.isFinished()) {
                             project.setInProgress(false);
+                            score += project.getCompletedScore(actualDay);
 
                             AtomicInteger contributorIndex = new AtomicInteger(0);
                             project.getContributors()
@@ -146,9 +145,9 @@ public abstract class ProcessingService {
     }
 
     private static List<String> formatResults() {
-        List<Project> plannedProjects = projects.stream()
+        List<Project> plannedProjects = new ArrayList<>(projects.stream()
                 .filter(project -> project.getContributors().size() > 0)
-                .toList();
+                .toList());
         plannedProjects.sort(Comparator.comparingInt(Project::getOrderId));
 
         List<String> results = new ArrayList<>();
@@ -167,7 +166,7 @@ public abstract class ProcessingService {
 
     private static void reset() {
         score = 0;
-        persons = new ArrayList<>();
+        availablePersons = new ArrayList<>();
         projects = new ArrayList<>();
         actualDay = 0;
         projectOrderId = 1;
