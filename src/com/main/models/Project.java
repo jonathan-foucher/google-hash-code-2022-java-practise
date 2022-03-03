@@ -83,6 +83,10 @@ public class Project {
         this.progression = progression;
     }
 
+    public void incrementProgression() {
+        progression++;
+    }
+
     public Integer getOrderId() {
         return orderId;
     }

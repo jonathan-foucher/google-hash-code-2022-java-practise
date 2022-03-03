@@ -1,6 +1,7 @@
 package com.main;
 
 import com.main.services.FileService;
+import com.main.services.ProcessingService;
 
 import java.io.File;
 import java.util.*;
@@ -23,10 +24,9 @@ public class Main {
         inputFiles.forEach(file -> {
             LOGGER.info("Processing " + file.getName());
             List<String> inputData = FileService.readFile(file.getPath());
-            System.out.println(inputData);
-            FileService.writeFile(OUTPUT_FOLDER_PATH + file.getName().replace(".txt", "_result.txt"), inputData);
+            List<String> outputData = ProcessingService.process(inputData);
+            FileService.writeFile(OUTPUT_FOLDER_PATH + file.getName().replace(".txt", "_result.txt"), outputData);
             LOGGER.info(file.getName() + " done");
         });
     }
-
 }
